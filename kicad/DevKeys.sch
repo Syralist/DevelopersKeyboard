@@ -1,4 +1,5 @@
 EESchema Schematic File Version 2
+LIBS:DevKeys-rescue
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -169,7 +170,7 @@ $EndComp
 Wire Wire Line
 	6900 4400 7400 4400
 $Comp
-L POT RV1
+L POT-RESCUE-DevKeys RV1
 U 1 1 57B2949F
 P 9700 4250
 F 0 "RV1" H 9700 4170 50  0000 C CNN
