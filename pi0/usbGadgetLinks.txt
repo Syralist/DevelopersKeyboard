@@ -1,0 +1,7 @@
+PiUsbGadet
+https://github.com/qlyoung/keyboard-gadget
+https://github.com/girst/hardpass-passwordmanager/tree/master/send_hid
+https://github.com/girst/hardpass-sendHID/blob/master/scancodes.c
+http://www.usb.org/developers/hidpage/Hut1_12v2.pdf
+https://docs.mbed.com/docs/ble-hid/en/latest/api/md_doc_HID.html
+https://www.raspberrypi.org/forums/viewtopic.php?t=151940
