@@ -115,5 +115,9 @@ _autosave-*
 *.csv
 *.pdf
 
+# Exported files
+*.gbr
+*.gcode
+
 # shared directory
 smb/
