@@ -182,7 +182,6 @@ KeypadKeys = {
     '=' : "0x67",
 }
 
-
 # print(Printables["de_DE"])
 
 class KeycodeSender:
@@ -192,8 +191,14 @@ class KeycodeSender:
         self.KeypadKeys = KeypadKeys
         self.Device = device
 
-    def sendPrintable(self, key):
+    def sendPrintable(self, key, ModShift = False, ModCtrl = False, ModAlt = False, ModSuper = False, ModWin = False):
         KeyCode, ModCode, Dead = self.PrintableKeys[key]
+        ModCode = "0x%x" % (int(ModCode,0) |
+                            iModLShift if ModShift else 0 | 
+                            iModLCtrl if ModCtrl else 0 |
+                            iModLAlt if ModAlt else 0 |
+                            iModRSuper if ModSuper else 0 |
+                            iModLWin if ModWin else 0)
         Sequence = bytes(int(x,0) for x in [ModCode, bNull, KeyCode, bNull, bNull, bNull, bNull, bNull])
         with open(self.Device, 'wb') as fp:
             fp.write(Sequence)
@@ -202,18 +207,24 @@ class KeycodeSender:
                 fp.write(Sequence)
                 fp.write(bReleaseAll)
 
-    def sendKeypadKey(self, key):
-        Sequence = bytes(int(x,0) for x in [bNull, bNull, self.KeypadKeys[key], bNull, bNull, bNull, bNull, bNull])
+    def sendKeypadKey(self, key, ModShift = False, ModCtrl = False, ModAlt = False, ModSuper = False, ModWin = False):
+        ModCode = "0x%x" % (iModLShift if ModShift else 0 | 
+                            iModLCtrl if ModCtrl else 0 |
+                            iModLAlt if ModAlt else 0 |
+                            iModRSuper if ModSuper else 0 |
+                            iModLWin if ModWin else 0)
+        Sequence = bytes(int(x,0) for x in [ModCode, bNull, self.KeypadKeys[key], bNull, bNull, bNull, bNull, bNull])
         with open(self.Device, 'wb') as fp:
             fp.write(Sequence)
             fp.write(bReleaseAll)
 
-    def sendSpecialKey(self, key, ModShift = False, ModCtrl = False, ModAlt = False, ModSuper = False):
+    def sendSpecialKey(self, key, ModShift = False, ModCtrl = False, ModAlt = False, ModSuper = False, ModWin = False):
         KeyCode = self.SpecialKeys[key]
         ModCode = "0x%x" % (iModLShift if ModShift else 0 | 
                             iModLCtrl if ModCtrl else 0 |
                             iModLAlt if ModAlt else 0 |
-                            iModRSuper if ModSuper else 0)
+                            iModRSuper if ModSuper else 0 |
+                            iModLWin if ModWin else 0)
         Sequence = bytes(int(x,0) for x in [ModCode, bNull, KeyCode, bNull, bNull, bNull, bNull, bNull])
         with open(self.Device, 'wb') as fp:
             fp.write(Sequence)
@@ -222,8 +233,8 @@ class KeycodeSender:
 
 de_Keyboard = KeycodeSender()
 
-de_Keyboard.sendPrintable('&')
-de_Keyboard.sendKeypadKey('0')
-de_Keyboard.sendSpecialKey('F1', ModShift = False)
+de_Keyboard.sendPrintable('-', ModCtrl = True)
+# de_Keyboard.sendKeypadKey('0')
+# de_Keyboard.sendSpecialKey('F1', ModShift = False)
 
 # print(de_Keyboard)
