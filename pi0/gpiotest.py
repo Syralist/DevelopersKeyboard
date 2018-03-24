@@ -1,14 +1,9 @@
-import RPi.GPIO as GPIO
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(24, GPIO.IN)
+from gpiozero import Button
 
-FlankenMerker = 0
+button = Button(2)
 
 while True:
-    Taster = GPIO.input(24)
-    if not Taster == FlankenMerker:
-        if Taster:
-            print("pressed")
-        else:
-            print("released")
-        FlankenMerker = Taster
+    if button.is_pressed:
+        print("Button is pressed")
+    else:
+        print("Button is not pressed")
