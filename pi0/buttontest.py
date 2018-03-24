@@ -24,7 +24,7 @@ def PressedKeyEvaluateSelection():
 
 KeyStart = Button(14)
 KeyStop = Button(15)
-KeySelect = Button(18)
+KeySelect = Button(1)
 KeyStepOver = Button(25)
 KeyStepInto = Button(8)
 KeyStepOut = Button(7)
