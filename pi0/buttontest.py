@@ -22,16 +22,16 @@ def PressedKeyRunAndAdvance():
 def PressedKeyEvaluateSelection():
     print("EvaluateSelection")
 
-KeyStart = Button(15)
-KeyStop = Button(16)
-KeySelect = Button(1)
-KeyStepOver = Button(6)
-KeyStepInto = Button(10)
-KeyStepOut = Button(11)
-KeyRunToCursor = Button(26)
-KeyRunSection = Button(27)
-KeyRunAndAdvance = Button(28)
-KeyEvaluateSelection = Button(29)
+KeyStart = Button(14)
+KeyStop = Button(15)
+KeySelect = Button(18)
+KeyStepOver = Button(25)
+KeyStepInto = Button(8)
+KeyStepOut = Button(7)
+KeyRunToCursor = Button(12)
+KeyRunSection = Button(16)
+KeyRunAndAdvance = Button(20)
+KeyEvaluateSelection = Button(21)
 
 KeyStart.when_pressed = PressedKeyStart
 KeyStop.when_pressed = PressedKeyStop
