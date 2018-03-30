@@ -231,9 +231,9 @@ class KeycodeSender:
             fp.write(bReleaseAll)
 
 
-de_Keyboard = KeycodeSender()
+# de_Keyboard = KeycodeSender()
 
-de_Keyboard.sendPrintable('-', ModCtrl = True)
+# de_Keyboard.sendPrintable('-', ModCtrl = True)
 # de_Keyboard.sendKeypadKey('0')
 # de_Keyboard.sendSpecialKey('F1', ModShift = False)
 
