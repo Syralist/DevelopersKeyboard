@@ -34,6 +34,9 @@ top = 2
 draw.text((x, top),    'Hello',  font=font, fill=255)
 draw.text((x, top+20), 'World!', font=font, fill=255)
 
+ImRun = Image.open('Run.bmp').convert('1')
+image.paste(ImRun, (64, top))
+
 # Display image.
 disp.image(image)
 disp.display()
