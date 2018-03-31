@@ -52,6 +52,7 @@ class Display():
         self.ShortcutLeft = 2 + 30 + 4
 
     def SetProgramm(self, name):
+        self.ImageDraw.rectangle([0, 0, self.width, self.height], fill=0, outline=0)
         self.ImageDraw.line([0, 27, self.width, 27], fill=255, width=1)
         self.ImageDraw.text((2, 2), name, font=self.Font, fill=255)
 
@@ -64,6 +65,8 @@ class Display():
     
     def SetShortcut(self, Text):
         self.ImageDraw.rectangle([self.ShortcutLeft, self.ShortcutTop, self.width, self.height], fill=0, outline=0)
+        if not Text:
+            Text = '-not set-'
         self.ImageDraw.text((self.ShortcutLeft, self.ShortcutTop), Text,  font=self.Font, fill=255)
 
     def UpdateScreen(self):
@@ -105,75 +108,125 @@ class DevKeys():
         self.KeyRunAndAdvance.when_pressed = self.PressedKeyRunAndAdvance
         self.KeyEvaluateSelection.when_pressed = self.PressedKeyEvaluateSelection
 
-
-    def PressedKeyRun(self):
-        print("Run")
-        (Text, IsSpecialKey, Key, ModShift, ModCtrl, ModAlt, ModSuper, ModWin) = Shortcuts[self.Programms[self.ProgrammIndex]]["Run"]
-        self.Display.SetIcon("Run")
-        self.Display.SetFunctionName("Run")
+    def SetDisplay(self, Function):
+        print(Function)
+        (Text, IsSpecialKey, Key, ModShift, ModCtrl, ModAlt, ModSuper, ModWin) = Shortcuts[self.Programms[self.ProgrammIndex]][Function]
+        self.Display.SetIcon(Function)
+        self.Display.SetFunctionName(Function)
         self.Display.SetShortcut(Text)
         self.Display.UpdateScreen()
-        if IsSpecialKey:
-            self.KeycodeSender.sendSpecialKey(Key, ModShift, ModCtrl, ModAlt, ModSuper, ModWin)
-        else:
-            self.KeycodeSender.sendPrintable(Key, ModShift, ModCtrl, ModAlt, ModSuper, ModWin)
-
-    def PressedKeyStop(self):
-        print("Stop")
-        self.Display.SetIcon("Stop")
-        self.Display.SetFunctionName("Stop")
-        self.Display.UpdateScreen()
+        if Text:
+            if IsSpecialKey:
+                self.KeycodeSender.sendSpecialKey(Key, ModShift, ModCtrl, ModAlt, ModSuper, ModWin)
+            else:
+                self.KeycodeSender.sendPrintable(Key, ModShift, ModCtrl, ModAlt, ModSuper, ModWin)
 
     def PressedKeySelect(self):
         print("Select")
-        # self.Display.SetIcon("Run")
-        # self.Display.UpdateScreen()
+        self.ProgrammIndex += 1
+        if self.ProgrammIndex >= len(self.Programms):
+            self.ProgrammIndex = 0
+        self.Display.SetProgramm(self.Programms[self.ProgrammIndex])
+        self.Display.UpdateScreen()
+
+    def PressedKeyRun(self):
+        Function = "Run"
+        self.SetDisplay(Function)
+
+    def PressedKeyStop(self):
+        Function = "Stop"
+        self.SetDisplay(Function)
 
     def PressedKeyStepOver(self):
-        print("StepOver")
-        self.Display.SetIcon("StepOver")
-        self.Display.SetFunctionName("StepOver")
-        self.Display.UpdateScreen()
+        Function = "StepOver"
+        self.SetDisplay(Function)
 
     def PressedKeyStepInto(self):
-        print("StepInto")
-        self.Display.SetIcon("StepInto")
-        self.Display.SetFunctionName("StepInto")
-        self.Display.UpdateScreen()
+        Function = "StepInto"
+        self.SetDisplay(Function)
 
     def PressedKeyStepOut(self):
-        print("StepOut")
-        self.Display.SetIcon("StepOut")
-        self.Display.SetFunctionName("StepOut")
-        self.Display.UpdateScreen()
+        Function = "StepOut"
+        self.SetDisplay(Function)
 
     def PressedKeyRunToCursor(self):
-        print("RunToCursor")
-        self.Display.SetIcon("RunToCursor")
-        self.Display.SetFunctionName("RunToCursor")
-        self.Display.UpdateScreen()
+        Function = "RunToCursor"
+        self.SetDisplay(Function)
 
     def PressedKeyRunSection(self):
-        print("RunSection")
-        self.Display.SetIcon("RunSection")
-        self.Display.SetFunctionName("RunSection")
-        self.Display.UpdateScreen()
+        Function = "RunSection"
+        self.SetDisplay(Function)
 
     def PressedKeyRunAndAdvance(self):
-        print("RunAndAdvance")
-        self.Display.SetIcon("RunAndAdvance")
-        self.Display.SetFunctionName("RunAndAdvance")
-        self.Display.UpdateScreen()
+        Function = "RunAndAdvance"
+        self.SetDisplay(Function)
 
     def PressedKeyEvaluateSelection(self):
-        print("EvaluateSelection")
-        self.Display.SetIcon("EvaluateSelection")
-        self.Display.SetFunctionName("EvaluateSelection")
-        self.Display.UpdateScreen()
+        Function = "EvaluateSelection"
+        self.SetDisplay(Function)
 
 Shortcuts = {}
 Shortcuts['Matlab'] = {} # (Text, IsSpecialKey, Key, ModShift, ModCtrl, ModAlt, ModSuper, ModWin)
 Shortcuts['Matlab']['Run'] = ('F5', True, 'F5', False, False, False, False, False)
+Shortcuts['Matlab']['Stop'] = ('Shift+F5', True, 'F5', True, False, False, False, False)
+Shortcuts['Matlab']['StepOver'] = ('F10', True, 'F10', False, False, False, False, False)
+Shortcuts['Matlab']['StepInto'] = ('F11', True, 'F11', False, False, False, False, False)
+Shortcuts['Matlab']['StepOut'] = ('Shift+F11', True, 'F11', True, False, False, False, False)
+Shortcuts['Matlab']['RunToCursor'] = ('Shift+F10', True, 'F10', True, False, False, False, False)
+Shortcuts['Matlab']['RunSection'] = ('Strg+Enter', False, '\n', False, True, False, False, False)
+Shortcuts['Matlab']['RunAndAdvance'] = ('St+Sh+Enter', False, '\n', True, True, False, False, False)
+Shortcuts['Matlab']['EvaluateSelection'] = ('F9', True, 'F9', False, False, False, False, False)
+Shortcuts['VisualStudio'] = {} # (Text, IsSpecialKey, Key, ModShift, ModCtrl, ModAlt, ModSuper, ModWin)
+Shortcuts['VisualStudio']['Run'] = ('F5', True, 'F5', False, False, False, False, False)
+Shortcuts['VisualStudio']['Stop'] = ('Shift+F5', True, 'F5', True, False, False, False, False)
+Shortcuts['VisualStudio']['StepOver'] = ('F10', True, 'F10', False, False, False, False, False)
+Shortcuts['VisualStudio']['StepInto'] = ('F11', True, 'F11', False, False, False, False, False)
+Shortcuts['VisualStudio']['StepOut'] = ('Shift+F11', True, 'F11', True, False, False, False, False)
+Shortcuts['VisualStudio']['RunToCursor'] = (None, None, None, None, None, None, None, None)
+Shortcuts['VisualStudio']['RunSection'] = (None, None, None, None, None, None, None, None)
+Shortcuts['VisualStudio']['RunAndAdvance'] = (None, None, None, None, None, None, None, None)
+Shortcuts['VisualStudio']['EvaluateSelection'] = (None, None, None, None, None, None, None, None)
+Shortcuts['Eclipse'] = {} # (Text, IsSpecialKey, Key, ModShift, ModCtrl, ModAlt, ModSuper, ModWin)
+Shortcuts['Eclipse']['Run'] = ('F11', True, 'F11', False, False, False, False, False)
+Shortcuts['Eclipse']['Stop'] = ('Strg+F2', True, 'F2', False, True, False, False, False)
+Shortcuts['Eclipse']['StepOver'] = ('F6', True, 'F6', False, False, False, False, False)
+Shortcuts['Eclipse']['StepInto'] = ('F5', True, 'F5', False, False, False, False, False)
+Shortcuts['Eclipse']['StepOut'] = ('F7', True, 'F7', False, False, False, False, False)
+Shortcuts['Eclipse']['RunToCursor'] = ('Strg+R', False, 'r', True, None, None, None, None)
+Shortcuts['Eclipse']['RunSection'] = (None, None, None, None, None, None, None, None)
+Shortcuts['Eclipse']['RunAndAdvance'] = (None, None, None, None, None, None, None, None)
+Shortcuts['Eclipse']['EvaluateSelection'] = ('F8', True, 'F8', False, False, False, False, False)
+Shortcuts['Notepad++'] = {} # (Text, IsSpecialKey, Key, ModShift, ModCtrl, ModAlt, ModSuper, ModWin)
+Shortcuts['Notepad++']['Run'] = ('F6', True, 'F6', False, False, False, False, False)
+Shortcuts['Notepad++']['Stop'] = (None, None, None, None, None, None, None, None)
+Shortcuts['Notepad++']['StepOver'] = (None, None, None, None, None, None, None, None)
+Shortcuts['Notepad++']['StepInto'] = (None, None, None, None, None, None, None, None)
+Shortcuts['Notepad++']['StepOut'] = (None, None, None, None, None, None, None, None)
+Shortcuts['Notepad++']['RunToCursor'] = (None, None, None, None, None, None, None, None)
+Shortcuts['Notepad++']['RunSection'] = (None, None, None, None, None, None, None, None)
+Shortcuts['Notepad++']['RunAndAdvance'] = (None, None, None, None, None, None, None, None)
+Shortcuts['Notepad++']['EvaluateSelection'] = (None, None, None, None, None, None, None, None)
+Shortcuts['VBA'] = {} # (Text, IsSpecialKey, Key, ModShift, ModCtrl, ModAlt, ModSuper, ModWin)
+Shortcuts['VBA']['Run'] = ('F5', True, 'F5', False, False, False, False, False)
+Shortcuts['VBA']['Stop'] = (None, None, None, None, None, None, None, None)
+Shortcuts['VBA']['StepOver'] = ('Shift+F8', True, 'F8', True, False, False, False, False)
+Shortcuts['VBA']['StepInto'] = ('F8', True, 'F8', False, False, False, False, False)
+Shortcuts['VBA']['StepOut'] = ('St+Sh+F8', True, 'F8', True, True, False, False, False)
+Shortcuts['VBA']['RunToCursor'] = ('Strg+F8', True, 'F8', False, True, False, False, False)
+Shortcuts['VBA']['RunSection'] = (None, None, None, None, None, None, None, None)
+Shortcuts['VBA']['RunAndAdvance'] = (None, None, None, None, None, None, None, None)
+Shortcuts['VBA']['EvaluateSelection'] = (None, None, None, None, None, None, None, None)
+
+myDisplay = Display()
+myKeycodeSender = KeycodeSender()
+myDevKeys = DevKeys(myDisplay, myKeycodeSender)
+
+print("Willkommen!")
+
+try:
+    pause()
+except KeyboardInterrupt:
+    print("Good Bye!")
 
 myDisplay = Display()
 myKeycodeSender = KeycodeSender()
