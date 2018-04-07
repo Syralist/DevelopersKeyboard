@@ -1,4 +1,4 @@
-update=Mi 28 Feb 2018 14:53:23 CET
+update=Sa 24 Mär 2018 18:20:58 CET
 version=1
 last_client=kicad
 [pcbnew]
@@ -63,3 +63,13 @@ LibName33=/home/thomas/Tools/kicad-library/library/mx1a
 LibName34=/home/thomas/workspace/KiCAD-Keyboard-Tutorial/components
 [general]
 version=1
+[schematic_editor]
+version=1
+PageLayoutDescrFile=
+PlotDirectoryName=
+SubpartIdSeparator=0
+SubpartFirstId=65
+NetFmtName=
+SpiceForceRefPrefix=0
+SpiceUseNetNumbers=0
+LabSize=60
