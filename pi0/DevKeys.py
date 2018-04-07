@@ -1,3 +1,7 @@
+import os
+import sys
+os.chdir(sys.path[0])
+
 from gpiozero import Button
 from signal import pause
 
